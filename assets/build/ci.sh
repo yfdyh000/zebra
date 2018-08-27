@@ -199,19 +199,6 @@ function build_repo() {
   chmod +x ./make.bash
 
   cat <<EOF |
-GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 ./make.bash
-GOOS=freebsd GOARCH=386 CGO_ENABLED=0 ./make.bash
-GOOS=freebsd GOARCH=amd64 CGO_ENABLED=0 ./make.bash
-GOOS=freebsd GOARCH=arm CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=386 CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=amd64 CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=arm CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=arm CGO_ENABLED=1 ./make.bash
-GOOS=linux GOARCH=arm64 CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=mips CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=mips64 CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=mips64le CGO_ENABLED=0 ./make.bash
-GOOS=linux GOARCH=mipsle CGO_ENABLED=0 ./make.bash
 GOOS=windows GOARCH=386 CGO_ENABLED=0 ./make.bash
 GOOS=windows GOARCH=amd64 CGO_ENABLED=0 ./make.bash
 EOF
