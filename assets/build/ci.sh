@@ -30,6 +30,7 @@ for CMD in curl awk git tar bzip2 xz 7za gcc make sha1sum timeout diff; do
   fi
 done
 
+cd /tmp
 mkdir -p "${WORKING_DIR}"
 
 function rename() {

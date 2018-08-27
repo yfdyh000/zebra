@@ -4,12 +4,12 @@ sudo: false
 language: bash
 
 script:
-  - cd /tmp
-  - bash -xe < <(curl -kL https://github.com/MeABc/zebra/raw/master/assets/build/ci.sh)
+  - bash -xe < ./assets/build/ci.sh
   
 branches:
   only:
     - master
+    - CI
 
 addons:
   apt:
@@ -20,3 +20,4 @@ addons:
       - lftp
       - libc6-dev-armhf-cross
       - p7zip-full
+      - golang
