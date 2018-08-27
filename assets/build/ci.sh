@@ -204,55 +204,13 @@ GOOS=windows GOARCH=amd64 CGO_ENABLED=0 ./make.bash
 EOF
   xargs --max-procs=5 -n1 -i bash -c {}
 
-  GOOS=linux GOARCH=amd64 CGO_ENABLED=0 ./make.bash check
+  #GOOS=linux GOARCH=amd64 CGO_ENABLED=0 ./make.bash check
 
   mkdir -p "${WORKING_DIR}"/r"${RELEASE}"
   cp -r build/*/dist/* "${WORKING_DIR}"/r"${RELEASE}"
   # test $(ls -1 ${WORKING_DIR}/r${RELEASE} | wc -l) -eq 15
 
   git archive --format=tar --prefix="zebra-r${RELEASE}/" HEAD | xz >"${WORKING_DIR}/r${RELEASE}/source.tar.xz"
-
-  # export GAE_RELEASE=$(git rev-list --count origin/server.gae)
-  # git archive --format=zip --prefix="zebra-r${GAE_RELEASE}/" origin/server.gae > "${WORKING_DIR}/r${RELEASE}/zebra-gae-r${GAE_RELEASE}.zip"
-
-  cd "${WORKING_DIR}"/r"${RELEASE}"
-  rename 's/_darwin_(amd64|386)/_macos_\1/' -- *
-  rename 's/_darwin_(arm64|arm)/_ios_\1/' -- *
-  # rename 's/_linux_arm-/_linux_armv6l-/' *
-  # rename 's/_linux_arm64/_linux_aarch64/' *
-
-  mkdir -p Zebra.app/Contents/{MacOS,Resources}
-  tar xvpf zebra_macos_amd64-r"${RELEASE}".tar.bz2 -C Zebra.app/Contents/MacOS/
-  cp "${WORKING_DIR}"/"${GITHUB_REPO}"/assets/packaging/zebra-macos.icns Zebra.app/Contents/Resources/
-  cat <<EOF >Zebra.app/Contents/Info.plist
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-        <key>CFBundleExecutable</key>
-        <string>zebra-macos</string>
-        <key>CFBundleGetInfoString</key>
-        <string>Zebra For macOS</string>
-        <key>CFBundleIconFile</key>
-        <string>zebra-macos</string>
-        <key>CFBundleName</key>
-        <string>Zebra</string>
-        <key>CFBundlePackageType</key>
-        <string>APPL</string>
-</dict>
-</plist>
-EOF
-  cat <<EOF >Zebra.app/Contents/MacOS/zebra-macos
-#!$(head -1 Zebra.app/Contents/MacOS/zebra-macos.command | tr -d '()' | awk '{print $1}')
-import os
-__file__ = os.path.join(os.path.dirname(__file__), 'zebra-macos.command')
-text = open(__file__, 'rb').read()
-code = compile(text[text.index('\n'):], __file__, 'exec')
-exec code
-EOF
-  chmod +x Zebra.app/Contents/MacOS/zebra-macos
-  BZIP=-9 tar cvjpf zebra_macos_app-r"${RELEASE}".tar.bz2 Zebra.app
-  rm -rf Zebra.app
 
   for FILE in zebra_windows_*.7z; do
     cat "${WORKING_DIR}"/"${GITHUB_REPO}"/assets/packaging/7zCon.sfx "${FILE}" >"${FILE}".exe
