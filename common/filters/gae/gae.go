@@ -146,7 +146,7 @@ func NewFilter(config *Config) (filters.Filter, error) {
 		HandshakeTimeout:            time.Duration(config.Transport.Dialer.Timeout) * time.Second,
 		IdleTimeout:                 time.Duration(config.Transport.IdleConnTimeout) * time.Second,
 		RequestConnectionIDOmission: false,
-		KeepAlive:                   false,
+		KeepAlive:                   !config.Transport.DisableKeepAlives,
 	}
 
 	directServerName := "fonts.googleapis.com"
