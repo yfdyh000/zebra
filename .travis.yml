@@ -1,7 +1,7 @@
 dist: trusty
 sudo: false
 
-language: bash
+language: go
 
 cache:
     apt: true
