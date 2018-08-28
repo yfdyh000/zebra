@@ -20,4 +20,3 @@ addons:
       - lftp
       - libc6-dev-armhf-cross
       - p7zip-full
-      - golang
