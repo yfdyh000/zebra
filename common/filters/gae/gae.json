@@ -150,6 +150,6 @@
 		"Protocol": "tcp",
 		"Host": "114.114.114.114",
 		"Port": "53",
-		"Timeout_ms": "300"
+		"Timeout": 0.3
 	}
 }

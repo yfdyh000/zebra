@@ -5,8 +5,8 @@ language: bash
 
 cache:
   directories:
-    - /home/travis/.cache
-    - /home/travis/.rvm/
+    - $HOME/.cache
+    - $HOME/.rvm
 
 script:
   - bash -xe < ./assets/build/ci.sh

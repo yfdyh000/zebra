@@ -11,6 +11,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 
@@ -82,6 +83,13 @@ type Config struct {
 		ResponseHeaderTimeout int
 		RetryDelay            float32
 		RetryTimes            int
+	}
+	NetProbe struct {
+		generate_204_url string
+		Protocol         string
+		Host             string
+		Port             int
+		Timeout          float32
 	}
 }
 
@@ -408,7 +416,7 @@ func NewFilter(config *Config) (filters.Filter, error) {
 
 	if config.EnableDeadProbe && !config.Transport.Proxy.Enabled {
 		isNetAvailable := func() bool {
-			c, err := net.DialTimeout(config.NetProbe.Protocol, net.JoinHostPort(config.NetProbe.Host, config.NetProbe.Port), time.Duration(config.NetProbe.Timeout_ms) * time.Millisecond)
+			c, err := net.DialTimeout(config.NetProbe.Protocol, net.JoinHostPort(config.NetProbe.Host, strconv.Itoa(config.NetProbe.Port)), time.Duration(config.NetProbe.Timeout)*time.Second)
 			if err != nil {
 				glog.V(3).Infof("GAE EnableDeadProbe connect NetProbe(%#v) failed: %+v", net.JoinHostPort(config.NetProbe.Host, config.NetProbe.Port), err)
 				return false
