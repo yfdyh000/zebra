@@ -3,9 +3,13 @@ sudo: false
 
 language: bash
 
+cache:
+    apt: true
+    ccache: true
+
 script:
   - bash -xe < ./assets/build/ci.sh
-  
+
 branches:
   only:
     - master
