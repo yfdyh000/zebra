@@ -1,11 +1,12 @@
 dist: trusty
 sudo: false
 
-language: go
+language: bash
 
 cache:
-    apt: true
-    ccache: true
+  directories:
+    - /home/travis/.cache
+    - /home/travis/.rvm/
 
 script:
   - bash -xe < ./assets/build/ci.sh
