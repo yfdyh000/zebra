@@ -144,5 +144,12 @@
 		"ResponseHeaderTimeout": 16,
 		"RetryDelay": 0.5,
 		"RetryTimes": 3,
+	},
+	"NetProbe": {
+		"generate_204_url": "https://google.cn/generate_204",
+		"Protocol": "tcp",
+		"Host": "114.114.114.114",
+		"Port": "53",
+		"Timeout_ms": "300"
 	}
 }

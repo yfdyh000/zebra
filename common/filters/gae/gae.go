@@ -408,9 +408,9 @@ func NewFilter(config *Config) (filters.Filter, error) {
 
 	if config.EnableDeadProbe && !config.Transport.Proxy.Enabled {
 		isNetAvailable := func() bool {
-			c, err := net.DialTimeout("tcp", net.JoinHostPort(config.DNSServers[0], "53"), 300*time.Millisecond)
+			c, err := net.DialTimeout(config.NetProbe.Protocol, net.JoinHostPort(config.NetProbe.Host, config.NetProbe.Port), time.Duration(config.NetProbe.Timeout_ms) * time.Millisecond)
 			if err != nil {
-				glog.V(3).Infof("GAE EnableDeadProbe connect DNSServer(%#v) failed: %+v", config.DNSServers[0], err)
+				glog.V(3).Infof("GAE EnableDeadProbe connect NetProbe(%#v) failed: %+v", net.JoinHostPort(config.NetProbe.Host, config.NetProbe.Port), err)
 				return false
 			}
 			c.Close()
@@ -422,7 +422,7 @@ func NewFilter(config *Config) (filters.Filter, error) {
 				return
 			}
 
-			req, _ := http.NewRequest(http.MethodGet, "https://clients3.google.com/generate_204", nil)
+			req, _ := http.NewRequest(http.MethodGet, config.NetProbe.generate_204_url, nil)
 			ctx, cancel := context.WithTimeout(req.Context(), 2*time.Second)
 			defer cancel()
 			req = req.WithContext(ctx)
@@ -435,6 +435,7 @@ func NewFilter(config *Config) (filters.Filter, error) {
 				}
 			}
 			if resp != nil && resp.Body != nil {
+				// todo: checking 204?
 				resp.Body.Close()
 			}
 		}
@@ -444,7 +445,7 @@ func NewFilter(config *Config) (filters.Filter, error) {
 				return
 			}
 
-			req, _ := http.NewRequest(http.MethodGet, "https://clients3.google.com/generate_204", nil)
+			req, _ := http.NewRequest(http.MethodGet, config.NetProbe.generate_204_url, nil)
 			resp, err := tr.RoundTrip(req)
 			if resp != nil && resp.Body != nil {
 				resp.Body.Close()
