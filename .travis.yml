@@ -5,7 +5,7 @@ language: bash
 
 cache:
   directories:
-    - $HOME/.cache
+    - $HOME/.cache/pip
     - $HOME/.rvm
 
 script:

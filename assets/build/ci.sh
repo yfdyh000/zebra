@@ -1,12 +1,5 @@
 #!/bin/bash -xe
 
-
-ls -lht $HOME/.cache
-ls -lht $HOME/.rvm
-du -sh $HOME/.cache/* | sort -h
-du -sh $HOME/.rvm | sort -h
-exit 1
-
 export GITHUB_USER=${GITHUB_USER:-MeABc}
 export GITHUB_EMAIL=${GITHUB_EMAIL:-MeABc@noreply.github.com}
 export GITHUB_REPO=${GITHUB_REPO:-zebra}
