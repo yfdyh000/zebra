@@ -416,7 +416,7 @@ func NewFilter(config *Config) (filters.Filter, error) {
 
 	if config.EnableDeadProbe && !config.Transport.Proxy.Enabled {
 		isNetAvailable := func() bool {
-			c, err := net.DialTimeout(config.NetProbe.Protocol, net.JoinHostPort(config.NetProbe.Host, strconv.Itoa(config.NetProbe.Port)), time.Duration(config.NetProbe.Timeout)*time.Second)
+			c, err := net.DialTimeout(config.NetProbe.Protocol, net.JoinHostPort(config.NetProbe.Host, strconv.Itoa(config.NetProbe.Port)), time.Duration(config.NetProbe.Timeout*1000)*time.Millisecond)
 			if err != nil {
 				glog.V(3).Infof("GAE EnableDeadProbe connect NetProbe(%#v) failed: %+v", net.JoinHostPort(config.NetProbe.Host, strconv.Itoa(config.NetProbe.Port)), err)
 				return false
